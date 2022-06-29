@@ -1,0 +1,68 @@
+pytest notes
+
+Unit testing tool for python
+
+pytest : binary that runs python tests
+-v : verbose output with % progress and filename etc (can also use like -vv etc.)
+-k : filter test cases using name in the full function name
+  pytest -k "login" -- the test with login in its name will be selected and run
+  # it can also be this or that
+  pytest -k "login or save" -- test with login or save in its name will be selected and run
+-x, --exitfirst : if a test case fails, it will stop complete test immediately and wont progress further
+--maxfail=2 : Tolerance of failure, it will stop tests if there are 2 fails
+-l : lists the variables/data for only failed test case
+--sw : start with, it will continue with test case that failed in previous iteration
+
+If we want to run a specific test case:
+pytest <filename>::<test_case>
+ex: pytest test_webserver.py::test_first -v
+ex: pytest test_webserver.py::test_first test_hari.py::test_two -v
+above example - one test from one module, another test from some other module
+
+
+--durations=10 : show me first 10 test cases which takes more than 0.05(default time by pytest to complete a test case) seconds
+--durations-min=2 : show me test cases which takes more than 2 seconds, can be used in conjunction with `--durations` flag
+
+hprasa638@APAC-SdgRVOjdSu:~$ pytest -v
+=========================================================================== test session starts ============================================================================
+platform linux -- Python 3.8.10, pytest-7.1.2, pluggy-1.0.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/hprasa638
+************************ the section above this is called header ^^^^
+collected 5 items
+
+--no-header : display output without header, starts with collections
+--tb=no/short/long : shows short or full or no traceback. traceback is the fail/pass details it shows
+--no-summary : no test summary displayed at end, just shows count and stops
+--trace : python debugger, can walk through the test case. use n for next, c for continue and q for quit etc.
+   we can set break point also. like b <filename>:<lineNum>
+-m "dev" : run test case marked as dev. marking done with annotations like this above the test case: @pytest.mark.dev
+   allows us to group test cases. One test case can have more than one mark. We can also run tests with or. like this
+   -m "dev or stage"
+   we can skip tests like this: @pytest.mark.skip
+   @pytest.mark.skip(1==2, reason="this will run always")
+   @pytest.mark.skip(1==1, reason="this will skipped always")
+   @pytest.mark.xfail(reason="execute the test case, but dont consider the results: it can be pass/fail, wont be counted tho")
+   
+   
+--disable-warnings : This is NOT recommended. This will disable the unknown marks warnings. 
+
+pytest.ini file: # This file will tell pytest that these markers are created by us and no warnings are needed.
+# This file should be in the dir where the test cases live. 
+[pytest]
+markers = 
+    dev
+    stage
+    prod
+
+
+Running tests in parallel.
+pytest-xdist - separate library that runs tests in parallel. just install it to use the parallel processing
+Only installing this would suffice, it will work with -n flag, else using -n flag would error out.
+
+-n 5 : Runs 5 tests in parallel.
+
+
+
+
+  
