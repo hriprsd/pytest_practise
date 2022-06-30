@@ -61,8 +61,35 @@ pytest-xdist - separate library that runs tests in parallel. just install it to 
 Only installing this would suffice, it will work with -n flag, else using -n flag would error out.
 
 -n 5 : Runs 5 tests in parallel.
+-s : prints the print statements in test case. Otherwise it will be displayed as captured stdout.
+@pytest.mark.parametrize('user', 'pwd', [("admin", "admin123"),("admin", "admin")])
+setup_function(): like a keyword in pytest. It will run automatically before each test case runs.
+setup_function(): same as above, but runs only once in begenning
+teardown_function(): like a keyword in pytest. It will run automatically after each test case runs, irrespective of the result.
+teardown_module(): same as above, but runs only once at end
+global connection: used with setup and teardown, so will run once at begenning and once after last test case is done. 
+   example: used with DB connection like task, so that we can connect once and run all tests in one go.
+@pytest.fixture: One level above setup_function, it will act as input/param for other test_cases.
+   Meaning, fixture has to run before using it in a test_Case. This is like attaching init function for test case where required.
 
+   @pytest.fixture(scope="module") - this ensures fixture runs only once even when called multiple times and persists the value that it has when run for the first time. Default scope value is "function". Entire python program is called a module, so telling modult scope runs its just once for one module.
+   If both setup_function and fixtures are used at same time, setup_function will run first.
+   
+   @pytest.fixture(autouse=True) - this works exactly like setup function.
 
+--show-setup: it will show when which function is called and what's the flow
+
+Report:
+--------------------------------
+pip install pytest-json-report
+--json-report: generates a json report of the tests run
+--json-report-file=<filename>: the generated json will live in this file
+--html=file.html: generates html report
+
+code-coverage:
+---------------------------------
+--cov: shows how much of code is not touched and shows % of code covered.
+--cov-report html: coverage report as html.
 
 
   
