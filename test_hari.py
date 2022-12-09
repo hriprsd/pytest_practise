@@ -18,3 +18,4 @@ def test_two():
   assert expected == actual, "second test case fail"
 
 # asset takes two args. boolean expression and a message to display if it fails
+# all the above works
